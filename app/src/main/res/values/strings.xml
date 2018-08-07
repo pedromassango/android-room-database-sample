@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Android Room Database Sample</string>
+    <string name="app_name">Room Database Sample</string>
+    <string name="empty">There is no Phrases</string>
+    <string name="phrases_size">Number of Phrases: %d</string>
 </resources>
