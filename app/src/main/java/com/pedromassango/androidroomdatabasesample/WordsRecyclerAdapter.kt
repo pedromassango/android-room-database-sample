@@ -22,7 +22,7 @@ class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
 /**
  * This is the Phrase adapter
  */
-class WordsRecyclerAdapter(private val data: ArrayList<Phrase>): RecyclerView.Adapter<MyViewHolder>(){
+class WordsRecyclerAdapter(private val data: ArrayList<Phrase> = arrayListOf()): RecyclerView.Adapter<MyViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.row_phrase, parent, false)
@@ -38,7 +38,8 @@ class WordsRecyclerAdapter(private val data: ArrayList<Phrase>): RecyclerView.Ad
         notifyDataSetChanged()
     }
 
-    fun add(phrases: ArrayList<Phrase>){
+    fun add(phrases: List<Phrase>){
+        data.clear()
         data.addAll(phrases)
         notifyDataSetChanged()
     }
