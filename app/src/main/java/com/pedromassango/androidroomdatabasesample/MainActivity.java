@@ -2,6 +2,8 @@ package com.pedromassango.androidroomdatabasesample;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -25,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private PhraseDao phraseDao;
 
     private TextView tvStatus;
-    private ListView listView ;
+    //private ListView listView ;
+    private RecyclerView recyclerView;
+    private WordsRecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Find views
         tvStatus = findViewById(R.id.tv_status);
-        listView = findViewById(R.id.list_phrases);
+        //listView = findViewById(R.id.list_phrases);
+        recyclerView = findViewById(R.id.list_phrases);
+        adapter = new WordsRecyclerAdapter();
+        recyclerView.setAdapter( adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // setup Database and get DAO
         PhraseRoomDatabase database = PhraseRoomDatabase.getDatabase(this);
@@ -76,17 +84,18 @@ public class MainActivity extends AppCompatActivity {
             tvStatus.setText(String.format(getString(R.string.phrases_size), phrases.size()));
         }
 
-        // convert to array
+       /* // convert to array
         List<String> phrasesAsStrings = new ArrayList<>();
         for (Phrase p:phrases) {
             phrasesAsStrings.add( p.getPhrase());
-        }
+        }*/
 
         // show all phrases
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, phrasesAsStrings);
+                */
 
-        listView.setAdapter(adapter);
+        adapter.add(phrases);
     }
 
     /**
