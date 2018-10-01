@@ -1,10 +1,12 @@
 package com.pedromassango.androidroomdatabasesample.data
 
 
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.paging.PagedList
 
 /**
  * Created by Pedro Massango on 8/7/18.
@@ -17,8 +19,11 @@ interface PhraseDao {
      * Get all phrases in database ordered by ASC
      * @return a list with all phrases
      */
-    @get:Query("SELECT * FROM phrase_table ORDER BY Phrase ASC")
-    val allPhrases: List<Phrase>
+    @Query("SELECT * FROM phrase_table ORDER BY Phrase ASC")
+    fun allPhrases(): DataSource.Factory<Int, Phrase>
+
+    @Query("SELECT * FROM phrase_table ORDER BY Phrase ASC")
+    fun getAll(): List<Phrase>
 
     /**
      * Function to insert a phrase in room database

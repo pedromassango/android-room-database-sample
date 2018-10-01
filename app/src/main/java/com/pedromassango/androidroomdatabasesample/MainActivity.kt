@@ -14,6 +14,12 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 
 import com.pedromassango.androidroomdatabasesample.data.Phrase
 import com.pedromassango.androidroomdatabasesample.data.PhraseDao
@@ -48,8 +54,23 @@ class MainActivity : AppCompatActivity() {
         val database = PhraseRoomDatabase.getDatabase(this)
         phraseDao = database.phraseDao()
 
-        // get all phrases
-        populateList()
+        val viewModel = ViewModelProviders.of(this).get(PhrasesViewModel::class.java)
+
+        // start listening for database changes
+        viewModel.phrasesList.observe(this, Observer{data ->
+
+            // if no words, stop here
+            // update status text
+            if (data.isEmpty()) {
+                tvStatus!!.setText(R.string.empty)
+                return@Observer
+            } else {
+                tvStatus!!.text = String.format(getString(R.string.phrases_size), data.size)
+            }
+
+            // show data
+            adapter?.submitList(data)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -64,36 +85,6 @@ class MainActivity : AppCompatActivity() {
             showDialogNewWord()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    /**
-     * Get all words from database
-     * and show it in listView
-     */
-    private fun populateList() {
-        val phrases = phraseDao!!.allPhrases
-
-        // if no words, stop here
-        // update status text
-        if (phrases.isEmpty()) {
-            tvStatus!!.setText(R.string.empty)
-            return
-        } else {
-            tvStatus!!.text = String.format(getString(R.string.phrases_size), phrases.size)
-        }
-
-        /* // convert to array
-        List<String> phrasesAsStrings = new ArrayList<>();
-        for (Phrase p:phrases) {
-            phrasesAsStrings.add( p.getPhrase());
-        }*/
-
-        // show all phrases
-        /*ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, phrasesAsStrings);
-                */
-
-        adapter!!.add(phrases)
     }
 
     /**
@@ -116,11 +107,36 @@ class MainActivity : AppCompatActivity() {
 
                         // save in room database
                         phraseDao!!.insert(phrase)
-                        // reload list, to reflect database changes
-                        populateList()
                     }
                 }
                 .create()
                 .show() // show dialog
+    }
+
+    companion object {
+        val phrases = arrayListOf(
+                Phrase("Course"),
+                Phrase("God"),
+                Phrase("Jesus"),
+                Phrase("Macbook"),
+                Phrase("Windows 7"),
+                Phrase("Windows 10"),
+                Phrase("Windows XP"),
+                Phrase("Windows 8"),
+                Phrase("Wi"),
+                Phrase("Playstation"),
+                Phrase("Nitendo"),
+                Phrase("Pro"),
+                Phrase("BMW ZX"),
+                Phrase("BMW OZ"),
+                Phrase("BMW QW"),
+                Phrase("AMMER 900"),
+                Phrase("ZERO 97"),
+                Phrase("ZERO 80"),
+                Phrase("Pedro Massango"),
+                Phrase("Pedro"),
+                Phrase("Massango"),
+                Phrase("Emilia")
+        )
     }
 }
