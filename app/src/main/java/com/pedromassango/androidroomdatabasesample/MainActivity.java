@@ -2,6 +2,7 @@ package com.pedromassango.androidroomdatabasesample;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.list_phrases);
         adapter = new WordsRecyclerAdapter();
         recyclerView.setAdapter( adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // setup Database and get DAO
