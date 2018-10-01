@@ -10,5 +10,6 @@ import androidx.room.PrimaryKey
  * Entity class to store in Room Database
  */
 @Entity(tableName = "phrase_table")
-class Phrase(@field:PrimaryKey
-             val phrase: String)
+class Phrase(var phrase: String,
+             @PrimaryKey(autoGenerate = true)
+             val id: Int = 0)
