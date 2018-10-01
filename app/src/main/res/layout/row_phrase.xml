@@ -2,7 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:padding="16dp"
     android:textColor="#000"
     tools:text="@string/app_name"
     android:id="@+id/tv_item_phrase"
